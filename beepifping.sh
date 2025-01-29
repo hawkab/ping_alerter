@@ -12,7 +12,8 @@ while true; do
     if ping -c 1 -W 1 "$IP_ADDRESS" &> /dev/null; then
         if [ "$PINGED_ONCE" = false ]; then
             FIRST_SUCCESS_TIME=$(date '+%Y-%m-%d %H:%M:%S')
-            echo -e "\n🟢 $IP_ADDRESS стал доступен в $FIRST_SUCCESS_TIME"
+            echo -e "\n$(date '+%Y-%m-%d %H:%M:%S') | 🟢 $IP_ADDRESS стал доступен"
+            notify-send SERVER-IS-AVAILABLE "$IP_ADDRESS стал доступен в $FIRST_SUCCESS_TIME"
             PINGED_ONCE=true
         fi
         echo -ne "\a"  # Воспроизведение звукового сигнала
