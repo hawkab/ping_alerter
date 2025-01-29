@@ -13,6 +13,7 @@ while true; do
         if [ "$PINGED_ONCE" = false ]; then
             FIRST_SUCCESS_TIME=$(date '+%Y-%m-%d %H:%M:%S')
             echo -e "\n🟢 $IP_ADDRESS стал доступен в $FIRST_SUCCESS_TIME"
+            osascript -e 'display notification "IP $IP_ADDRESS стал доступен!" with title "SERVER-IS-AVAILABLE"'
             PINGED_ONCE=true
         fi
         osascript -e 'beep'  # Воспроизведение звука в macOS
