@@ -1,40 +1,29 @@
-@ECHO OFF
+@echo off
+setlocal enabledelayedexpansion
 
-SETLOCAL EnableDelayedExpansion
+:: Используем переданный IP или значение по умолчанию
+set IP_ADDRESS=%1
+if "%IP_ADDRESS%"=="" set IP_ADDRESS=8.8.8.8
 
-SET IP[1]=127.0.0.1
+echo 📡 Мониторинг IP: %IP_ADDRESS%
+echo Нажмите Ctrl+C для выхода.
 
-SET TimeBetweenPings=1
-SET RetryBeforeBeep=1
+set PINGED_ONCE=0
 
-
-REM SETTING FLAGS
-FOR /F "tokens=2 delims==" %%A IN ('SET IP[') DO (
-   SET AlertFlag[%%A]=0
+:loop
+ping -n 1 -w 1000 %IP_ADDRESS% >nul
+if %errorlevel%==0 (
+    if %PINGED_ONCE%==0 (
+        set FIRST_SUCCESS_TIME=%DATE% %TIME%
+        echo.
+        echo %DATE% %TIME% | 🟢 %IP_ADDRESS% стал доступен
+        set PINGED_ONCE=1
+    )
+    echo             
+    timeout /t 1 >nul
+) else (
+    echo %DATE% %TIME% | 🔴 %IP_ADDRESS% пока не доступен...   
+    set PINGED_ONCE=0
+    timeout /t 1 >nul
 )
- 
-:Home
-CLS
-REM PINGING DESTINATIONS
-
-ECHO ERR EML TARGET IP ADDRESS
-ECHO -------------------------
-
-FOR /F "tokens=2,3 delims==" %%A IN ('SET IP[') DO (
-   ECHO [!AlertFlag[%%A]!] [!AlertSentGood[%%A]!] [%%A]
-   PING -n 1 %%A >NUL
-
-   IF !errorlevel! == 0 (
-		CALL :BEEP
-   ) ELSE (
-      SET AlertFlag[%%A]=0
-      SET /a AlertFlag[%%A]+=1        
-   )
-)
-PING -n %TimeBetweenPings% -w 1000 10.0.0.0>NUL
-Goto Home
-
-:BEEP
-echo Server is up!
-echo 
-EXIT /b
+goto loop
