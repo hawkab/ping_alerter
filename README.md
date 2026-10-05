@@ -15,3 +15,7 @@ through your computer speakers if the website starts working. Just try how this 
 2025-01-29 19:36:19 | 🔴 192.168.1.46 пока не доступен...   
 2025-01-29 19:36:20 | 🟢 192.168.1.46 стал доступен
 ```
+
+[![Support this project · TON network](https://hawkab.github.io/support/support-button.svg)](https://hawkab.github.io/support/)
+
+Optional contributions support development, maintenance and testing. The [support page](https://hawkab.github.io/support/) has a QR code, wallet link and copy buttons, and works on computers and phones. You choose the amount in your wallet.
